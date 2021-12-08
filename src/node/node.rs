@@ -156,18 +156,8 @@ impl PowNode {
         &config,
       );
 
-      if header.consensus.difficulty < expected_min_diff {
-        debug!(
-          "Failed min-diff: expect {} from curr {:?} with pred {:?}",
-          expected_min_diff, &header, &pred_header
-        );
-
-        self.service.fail_block(header.block_id.clone())?;
-        return Ok(EventResult::Continue);
-      }
-
       trace!(
-        "Passed min-diff: expect {} from curr {:?} with pred {:?}",
+        "Bypassed min-diff: expect {} from curr {:?} with pred {:?}",
         expected_min_diff,
         &header,
         &pred_header
