@@ -4,9 +4,8 @@ use std::fmt::{Debug, Formatter, Result as FmtResult};
 use sawtooth_sdk::consensus::engine::Error;
 
 use crate::utils::utc_seconds_f64;
-use crate::work::get_difficulty;
 use crate::{
-  block::{Block, BlockHeader, BlockId, SerializedBlockConsensus},
+  block::{BlockId, SerializedBlockConsensus},
   node::PowService,
 };
 use crate::{
@@ -43,12 +42,9 @@ impl Miner {
     &mut self,
     block_id: BlockId,
     peer_id: PeerId,
-    service: &mut PowService,
-    config: &PowConfig,
+    _service: &mut PowService,
+    _config: &PowConfig,
   ) -> Result<(), Error> {
-    let block: Block = service.get_block(&block_id)?;
-    let header: BlockHeader = BlockHeader::borrowed(&block).expect("Chain head Header");
-
     let timestamp: f64 = utc_seconds_f64();
     let difficulty: u32 = 19;
     warn!("Mining low difficulty: {}", difficulty);
